@@ -1,0 +1,390 @@
+/* ════════════════════════════════════════════════════════════════════════
+   Книга памяти — печатная тема (Vivliostyle / CSS Paged Media)
+   Светлое издание, A5 portrait, одна колонка, сквозной поток текста.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Шрифты (встроены локально, воспроизводимо на любой машине) ─────────── */
+@font-face{font-family:"PT Serif";font-style:normal;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptserif-latin-400-normal.woff2") format("woff2");}
+@font-face{font-family:"PT Serif";font-style:normal;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptserif-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:"PT Serif";font-style:italic;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptserif-latin-400-italic.woff2") format("woff2");}
+@font-face{font-family:"PT Serif";font-style:italic;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptserif-cyrillic-400-italic.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:"PT Serif";font-style:normal;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptserif-latin-700-normal.woff2") format("woff2");}
+@font-face{font-family:"PT Serif";font-style:normal;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptserif-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:"PT Serif";font-style:italic;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptserif-latin-700-italic.woff2") format("woff2");}
+@font-face{font-family:"PT Serif";font-style:italic;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptserif-cyrillic-700-italic.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+
+@font-face{font-family:"PT Sans";font-style:normal;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptsans-latin-400-normal.woff2") format("woff2");}
+@font-face{font-family:"PT Sans";font-style:normal;font-weight:400;font-display:swap;
+  src:url("../assets/fonts/ptsans-cyrillic-400-normal.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+@font-face{font-family:"PT Sans";font-style:normal;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptsans-latin-700-normal.woff2") format("woff2");}
+@font-face{font-family:"PT Sans";font-style:normal;font-weight:700;font-display:swap;
+  src:url("../assets/fonts/ptsans-cyrillic-700-normal.woff2") format("woff2");
+  unicode-range:U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;}
+
+:root{
+  --ink:#1a1a1a;          /* основной текст */
+  --soft:#4a4a44;         /* приглушённый */
+  --rule:#bcae93;         /* тонкие линии, акцент */
+  --accent:#7a5a32;       /* коричнево-золотой акцент печати */
+  --paper:#fffdf8;        /* кремовая бумага */
+  --serif:"PT Serif","Charter",Georgia,"Times New Roman",serif;
+  --sans:"PT Sans","Helvetica Neue",Arial,sans-serif;
+}
+
+/* ─── Страница A5, поля с учётом переплёта, колонтитулы ──────────────────── */
+@page{
+  size:148mm 210mm;
+  margin:18mm 16mm 20mm 20mm;            /* верх право низ лево */
+  background:var(--paper);
+  @bottom-center{
+    content:counter(page);
+    font-family:var(--sans); font-size:8.5pt; color:var(--soft);
+    margin-top:6mm;
+  }
+}
+@page :left{
+  margin:18mm 20mm 20mm 16mm;
+  @top-left{
+    content:string(booktitle);
+    font-family:var(--sans); font-size:7.5pt; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--soft); margin-bottom:5mm;
+  }
+}
+@page :right{
+  @top-right{
+    content:string(chaptertitle);
+    font-family:var(--sans); font-size:7.5pt; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--soft); margin-bottom:5mm;
+  }
+}
+/* Титул, оглавление, открытие главы — без колонтитула, без номера сверху */
+@page bare{ @top-left{content:none} @top-right{content:none} @top-center{content:none} }
+@page :first{ @top-left{content:none} @top-right{content:none} @bottom-center{content:none} }
+/* Обложка и задняя сторонка — фотографические листы во весь обрез (без полей,
+   колонтитулов и номера). Полноцветное фото — единственное место книги, где
+   страница уходит под обрез: всё остальное издание светлое, в полях. */
+@page cover{ size:148mm 210mm; margin:0;
+  @top-left{content:none} @top-right{content:none} @bottom-center{content:none} }
+@page backcover{ size:148mm 210mm; margin:0;
+  @top-left{content:none} @top-right{content:none} @bottom-center{content:none} }
+
+html{ font-size:11pt; }
+body{
+  font-family:var(--serif); color:var(--ink); background:var(--paper);
+  line-height:1.5; text-align:justify;
+  -webkit-hyphens:auto; hyphens:auto; hyphenate-limit-chars:6 3 3;
+  font-kerning:normal; font-variant-ligatures:common-ligatures;
+  margin:0;
+}
+:lang(ru){ hyphens:auto; }
+
+/* Постоянный заголовок книги для колонтитула чётных страниц.
+   Дефолт нейтральный; build_book.py дописывает после темы переопределение
+   из book.config.yml → book.title (напр. body{string-set:booktitle "…";}). */
+body{ string-set:booktitle "Книга памяти"; }
+
+p{ margin:0; text-indent:1.2em; orphans:2; widows:2; }
+p:first-of-type, h1+p, h2+p, h3+p, blockquote+p, .epigraph+p, figure+p{ text-indent:0; }
+strong{ font-weight:700; }
+em{ font-style:italic; }
+a{ color:inherit; text-decoration:none; }
+
+/* ─── Титульная страница ────────────────────────────────────────────────── */
+.titlepage{
+  page:bare; break-after:page;
+  display:flex; flex-direction:column; justify-content:center;
+  align-items:center; text-align:center; height:174mm;
+}
+.titlepage .kicker{
+  font-family:var(--sans); font-size:9pt; letter-spacing:.34em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:14mm;
+}
+.titlepage h1{
+  font-family:var(--serif); font-weight:700; font-size:30pt; line-height:1.18;
+  margin:0; color:var(--ink); border:0; text-indent:0;
+}
+.titlepage .sub{
+  font-family:var(--serif); font-style:italic; font-size:13pt;
+  color:var(--soft); margin-top:8mm;
+}
+.titlepage .rule{ width:46mm; border-top:1px solid var(--rule); margin:13mm 0; }
+.titlepage .imprint{
+  font-family:var(--sans); font-size:8.5pt; color:var(--soft);
+  letter-spacing:.06em; line-height:1.7;
+}
+
+/* ─── Фото-обложка (лицо) ────────────────────────────────────────────────── */
+.bookcover{
+  page:cover; break-after:page; position:relative;
+  width:148mm; height:210mm; overflow:hidden;
+  background:#0c0a07; color:#f5eedd;
+}
+.bookcover .ph, .backcover .ph{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  /* тон (grayscale/sepia/contrast/brightness) запечён в сам JPEG в
+     prep_cover_image(); CSS-filter убран, иначе Chromium растеризует
+     обложку в Flate-слой с альфа-маской → Adobe тормозит/мигает. */
+}
+.bookcover .veil{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,
+    rgba(10,8,5,.78) 0%, rgba(10,8,5,.55) 12%, rgba(10,8,5,.16) 30%,
+    rgba(10,8,5,.18) 50%, rgba(10,8,5,.66) 73%, rgba(10,8,5,.93) 100%);
+}
+.bookcover .eyebrow{
+  position:absolute; left:0; right:0; top:15mm; margin:0; text-indent:0;
+  text-align:center; font-family:var(--sans); font-weight:700;
+  letter-spacing:.3em; text-transform:uppercase; font-size:10pt;
+  color:#ecce8e; text-shadow:0 1px 5px rgba(0,0,0,.75);
+}
+.bookcover .blk{
+  position:absolute; left:12mm; right:12mm; bottom:24mm; text-align:center;
+}
+.bookcover .title{
+  font-family:var(--serif); font-weight:700; font-size:31pt; line-height:1.15;
+  color:#fbf5e6; text-shadow:0 2px 10px rgba(0,0,0,.6);
+}
+.bookcover .rule{ width:36mm; border-top:1pt solid #d8b878; margin:9mm auto; }
+.bookcover .sub{
+  font-family:var(--serif); font-style:italic; font-size:12.5pt;
+  color:rgba(245,238,221,.9); text-shadow:0 1px 6px rgba(0,0,0,.6);
+}
+.bookcover .by{
+  position:absolute; left:0; right:0; bottom:9mm; text-align:center;
+  font-family:var(--sans); font-size:7.5pt; letter-spacing:.18em;
+  color:rgba(245,238,221,.62);
+}
+
+/* ─── Задняя сторонка ────────────────────────────────────────────────────── */
+.backcover{
+  page:backcover; break-before:page; position:relative;
+  width:148mm; height:210mm; overflow:hidden;
+  background:#0c0a07; color:#f5eedd;
+}
+.backcover .veil{ position:absolute; inset:0; background:rgba(9,7,4,.84); }
+.backcover .inner{
+  position:absolute; left:0; right:0; top:26mm; padding:0 12mm;
+  text-align:center;
+}
+.backcover .head{
+  font-family:var(--sans); font-weight:700; font-size:8pt;
+  letter-spacing:.3em; text-transform:uppercase; color:#d8b878;
+  margin:0 0 11mm; text-indent:0;
+}
+.backcover .names{
+  font-family:var(--serif); font-size:11pt; line-height:1.95; color:#f5eedd;
+}
+.backcover .names span{ display:block; }
+.backcover .yrs{
+  margin-top:11mm; font-family:var(--sans); font-size:8.5pt;
+  letter-spacing:.34em; color:#d8b878;
+}
+.backcover .colophon{
+  position:absolute; left:12mm; right:12mm; bottom:12mm; text-align:center;
+  font-family:var(--sans); font-size:6.6pt; line-height:1.55;
+  color:rgba(245,238,221,.5);
+}
+
+/* ─── Оглавление ────────────────────────────────────────────────────────── */
+.toc{ page:bare; break-after:page; }
+.toc h2{
+  font-family:var(--sans); font-weight:700; font-size:15pt;
+  letter-spacing:.04em; text-transform:uppercase; color:var(--ink);
+  margin:0 0 9mm; text-align:center; border:0;
+}
+.toc ol{ list-style:none; margin:0; padding:0; }
+.toc li{ margin:0 0 2.6mm; font-size:10.5pt; }
+.toc li.part{
+  font-family:var(--sans); font-weight:700; font-size:8.5pt;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+  margin:7mm 0 3mm;
+}
+.toc a{
+  display:flex; align-items:baseline; gap:.5em;
+}
+.toc a .t{ flex:0 1 auto; }
+.toc a .leader{
+  flex:1 1 auto; border-bottom:1px dotted var(--rule);
+  transform:translateY(-.18em); margin:0 .3em;
+}
+.toc a::after{
+  content:target-counter(attr(href), page);
+  flex:0 0 auto; font-family:var(--sans); font-size:9.5pt; color:var(--soft);
+}
+
+/* ─── Открытие раздела (глава / врезка / введение) ──────────────────────── */
+/* Новый раздел всегда с новой страницы — но НЕ форсируем правую полосу:
+   принудительная ректо-вёрстка давала десятки полностью пустых оборотов
+   (главная жалоба к старой книге — пустые/полупустые страницы). */
+.chapter, .chapter.cont{ break-before:page; }
+.section-open{ page:bare; }
+.eyebrow{
+  font-family:var(--sans); font-weight:700; font-size:8pt;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--accent);
+  margin:6mm 0 0; text-align:left; text-indent:0;
+}
+h1{
+  font-family:var(--serif); font-weight:700; font-size:21pt; line-height:1.22;
+  color:var(--ink); margin:5mm 0 0; text-indent:0;
+  string-set:chaptertitle content(text);
+}
+h1::after{
+  content:""; display:block; width:34mm; border-top:2px solid var(--rule);
+  margin:7mm 0 9mm;
+}
+
+h2{
+  font-family:var(--sans); font-weight:700; font-size:12.5pt;
+  color:var(--ink); margin:9mm 0 3mm; text-indent:0;
+  break-after:avoid; line-height:1.3;
+}
+h3{
+  font-family:var(--serif); font-weight:700; font-style:italic;
+  font-size:11.5pt; color:var(--soft); margin:6mm 0 2.5mm; text-indent:0;
+  break-after:avoid;
+}
+h1+*, h2+*, h3+*{ break-before:avoid; }
+
+/* ─── Эпиграф (первая blockquote сразу после h1) ─────────────────────────── */
+h1 + blockquote, .epigraph{
+  font-family:var(--serif); font-style:italic; font-size:10pt;
+  color:var(--soft); line-height:1.5;
+  margin:0 0 9mm; padding:0 0 0 7mm;
+  border-left:2px solid var(--rule); text-align:left;
+}
+h1 + blockquote p, .epigraph p{ text-indent:0; margin:0 0 2mm; }
+
+/* Обычные внутритекстовые цитаты */
+blockquote{
+  margin:4mm 6mm; padding-left:6mm; border-left:2px solid var(--rule);
+  color:var(--soft); font-size:10pt; text-align:left;
+}
+blockquote p{ text-indent:0; margin:0 0 2mm; }
+
+/* ─── Сноски: надстрочный номер в тексте ─────────────────────────────────── */
+.footnote-ref, a.footnote-ref{
+  font-size:.7em; vertical-align:super; line-height:0;
+  color:var(--accent); font-family:var(--sans);
+}
+.footnote-back{ font-family:var(--sans); }
+
+/* ─── Сводный раздел «Источники» в конце книги (по главам) ─────────────────
+   Поглавных блоков «Источники» в теле книги больше нет — все сноски
+   собраны здесь одним разделом, сгруппированным по главам в порядке
+   появления. Заголовок группы = название главы. */
+.footnotes.consolidated{ margin-top:4mm; }
+.src-chap{ margin:0 0 5mm; }
+.src-h{
+  font-family:var(--sans); font-weight:700; font-size:10pt;
+  letter-spacing:.01em; color:var(--accent);
+  margin:7mm 0 2.5mm; padding-bottom:1.4mm;
+  border-bottom:1px solid var(--rule);
+  break-after:avoid;
+}
+.src-chap:first-child .src-h{ margin-top:2mm; }
+.src-list{
+  margin:0; padding-left:6mm;
+  font-size:8.8pt; line-height:1.45; color:var(--soft); text-align:left;
+}
+.src-list li{ margin:0 0 1.6mm; text-indent:0; break-inside:avoid; }
+.src-list li p{ text-indent:0; margin:0; }
+.src-list .fl{ font-family:var(--sans); color:var(--accent); }
+.src-chap > p, .src-chap > ul{
+  font-size:8.8pt; line-height:1.45; color:var(--soft);
+  text-indent:0; text-align:left; margin:2mm 0 0;
+}
+.src-chap > ul{ padding-left:6mm; }
+
+/* ─── Карта-лист: светлая вклейка-иллюстрация в полях книги ────────────────
+   Карта в той же светлой палитре и в тех же полях, что текст: обычная
+   страница (колонтитул + номер), карта — кадрированная иллюстрация в
+   текстовом блоке, тонкая рамка. Без вылета под обрез. */
+.map-plate{
+  break-before:page; break-after:page; break-inside:avoid;
+  display:flex; flex-direction:column; justify-content:center;
+  height:172mm;                     /* высота текстового блока A5 */
+  margin:0; padding:0;
+}
+.map-plate .frame{
+  width:100%;
+  border:1px solid var(--rule);
+  background:var(--paper);
+  margin:0; padding:0;
+}
+.map-plate .frame svg{
+  display:block; width:100%; height:auto;
+}
+.map-plate figcaption{ display:none; }      /* карта подписана внутри SVG */
+
+/* Мини-дерево двора в зачине главы — компактная инлайн-полоса сразу под
+   заголовком/эпиграфом, БЕЗ разрыва страницы; проза продолжается следом.
+   Держим блок целым (break-inside:avoid), но не выносим на отд. лист. */
+.dvor-tree{
+  break-before:avoid; break-after:avoid; break-inside:avoid;
+  margin:5mm 0 6mm; padding:0;
+}
+.dvor-tree .frame{
+  width:100%;
+  border:1px solid var(--rule);
+  background:var(--paper);
+  margin:0; padding:0;
+}
+.dvor-tree .frame svg{ display:block; width:100%; height:auto; }
+
+/* ─── Разделитель внутри главы (* * *) ───────────────────────────────────── */
+hr{
+  border:0; text-align:center; margin:6mm 0;
+}
+hr::after{ content:"* * *"; color:var(--rule); letter-spacing:.5em; }
+
+/* Висячие заголовки и разрывы */
+/* Заголовки — по левому краю (наследуемый justify рвал слова в строке) */
+h1,h2,h3{ text-align:left; }
+h1,h2,h3{ break-inside:avoid; }
+figure{ break-inside:avoid; margin:6mm 0; }
+
+/* ─── Фотопластина: документальные снимки людей из родословной книги ───────
+   Источник — скан печатной книги ~109 ppi, кадры мелкие; показываем
+   небольшим «вклеенным» фото с тонкой рамкой и подписью сансерифом,
+   не растягивая выше разумного (иначе видна полиграфическая сетка). */
+.photo-plate{ text-align:center; }
+.photo-plate img{
+  display:block; margin:0 auto;
+  width:auto; max-width:52mm; max-height:66mm; height:auto;
+  border:1px solid var(--rule); background:#fff; padding:1.6mm;
+}
+.photo-plate.wide img{ max-width:100%; max-height:none; }
+.photo-plate figcaption{
+  font-family:var(--sans); font-size:7.5pt; color:var(--soft);
+  margin-top:2.6mm; line-height:1.3;
+  max-width:108mm; margin-left:auto; margin-right:auto;
+}
+.photo-row{
+  display:flex; gap:9mm; justify-content:center; align-items:flex-end;
+  text-align:center;
+}
+.photo-row .pcard{ flex:0 1 auto; }
+.photo-row .pcard img{
+  display:block; margin:0 auto;
+  width:auto; max-width:46mm; max-height:62mm; height:auto;
+  border:1px solid var(--rule); background:#fff; padding:1.6mm;
+}
+.photo-row .pcard .cap{
+  display:block; font-family:var(--sans); font-size:7.5pt;
+  color:var(--soft); margin-top:2.6mm; line-height:1.3;
+}

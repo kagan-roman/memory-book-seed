@@ -1,0 +1,9 @@
+{
+  "name": "memory-book-seed-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Memory book build — PDF via Vivliostyle (CSS Paged Media)",
+  "dependencies": {
+    "@vivliostyle/cli": "^9.0.0"
+  }
+}
