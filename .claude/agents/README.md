@@ -1,6 +1,6 @@
 # Субагенты книги памяти
 
-Десять субагентов, управляемых основным Claude-оркестратором (слэш-команды в
+Одиннадцать субагентов, управляемых основным Claude-оркестратором (слэш-команды в
 `.claude/commands/`). Конкретные род/село/автор — в `book.config.yml`; правила
 и замысел — в `CLAUDE.md`. Хардкода нет.
 
@@ -18,6 +18,7 @@
 | `typesetter` | Собирает `dist/book.pdf` (Vivliostyle) | `/pdf`, по явной команде |
 | `wiki-curator` | Переносит факты в `wiki/` | `/wiki`, после стабилизации главы |
 | `illustrator` | Документ. фото мест; контактный лист → гейт → вставка | `/illustrate`; PROPOSE → автор → APPLY |
+| `quality-auditor` | KPI с диска → `SCORECARD.md` + вердикт готовности (мягкий гейт) | `/audit`, регулярно и перед `/pdf` |
 
 Разграничение ревью: **внутри одной главы** (факты/стиль/повторы/регресс) —
 `reviewer`; **замысел и динамика** — `book-director`; **между главами и по
@@ -30,6 +31,7 @@ book/_master/   outline.md introduction.md conclusion.md
                 interlude-*.md sources.md STYLE-RULES.md       ← book-director
                 dvory.yml                                      ← genealogist
                 EDIT-PASS.md                                   ← editor
+                SCORECARD.md                                   ← quality-auditor
 wiki/families/*                 ← genealogist
 book/chapters/<slug>/
   facts.md  context.md          ← researcher
