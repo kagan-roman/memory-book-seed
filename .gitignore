@@ -3,6 +3,9 @@
 
 # промежуточный рендер карт/деревьев/manuscript.html
 build/.out/
+# вычитанная копия PDF от рецензента (рабочий вход стадии /proof; может быть
+# тяжёлой и личной). PROOF-*.md — наоборот, история правок, коммитится.
+dist/book.annotated.pdf
 # @vivliostyle/cli
 build/node_modules/
 # скачивается build/clip_geo.py (см. README)
