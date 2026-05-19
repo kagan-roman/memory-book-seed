@@ -15,7 +15,7 @@
 | `chronicler` | Пишет `chapters/<slug>/draft.md` | `/write` после researcher; снова по ревью/edit |
 | `reviewer` | Fact-check + style-check + **внутриглавные** повторы + регресс | `/review` на каждый draft |
 | `editor` | **Сквозная** редактура всей рукописи (межглавные повторы, согласованность) | `/edit`, когда все главы прошли `/review` |
-| `typesetter` | Собирает `dist/book.pdf` (Vivliostyle) | `/typeset`, по явной команде |
+| `typesetter` | Собирает `dist/book.pdf` (Vivliostyle) | `/pdf`, по явной команде |
 | `wiki-curator` | Переносит факты в `wiki/` | `/wiki`, после стабилизации главы |
 | `illustrator` | Документ. фото мест; контактный лист → гейт → вставка | `/illustrate`; PROPOSE → автор → APPLY |
 

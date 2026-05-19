@@ -13,7 +13,7 @@ STYLE-RULES.md`, `book/_master/outline.md` (порядок, мотивы, рее
 все `book/chapters/*/draft.md`, мастер-куски (intro/concl/врезки).
 
 Запускается, когда **все главы написаны и прошли per-chapter `/review`** —
-проход перед `/maps`/`/typeset`. Выход — `book/_master/EDIT-PASS.md`
+проход перед `/maps`/`/pdf`. Выход — `book/_master/EDIT-PASS.md`
 (actionable, по главам). **Прозу не переписываешь** — правки исполняет
 `chronicler`; ты находишь и формулируешь «было → нужно».
 

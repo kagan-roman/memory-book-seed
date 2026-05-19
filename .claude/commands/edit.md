@@ -3,7 +3,7 @@ description: Сквозная редактура всей рукописи (кн
 ---
 
 Стадия **edit** (когда все главы написаны и прошли per-chapter `/review`;
-перед `/maps`/`/typeset`). Прочитай `book.config.yml`, `CLAUDE.md`,
+перед `/maps`/`/pdf`). Прочитай `book.config.yml`, `CLAUDE.md`,
 `book/_master/STYLE-RULES.md`, `outline.md`.
 
 Запусти агента `editor` — он читает ВСЮ рукопись разом и пишет
