@@ -26,7 +26,7 @@ book.config.yml      ЕДИНЫЙ конфиг: фамилия, село, авт
 CLAUDE.md            этот файл — мозг проекта (грузится автоматически)
 MEMORY.md            индекс заметок об этом проекте/пользователе (необязательно)
 
-.claude/agents/      8 субагентов (параметризованы из book.config.yml)
+.claude/agents/      10 субагентов (параметризованы из book.config.yml)
 .claude/commands/    слэш-команды = стадии конвейера
 
 sources/             RAW, НЕИЗМЕНЯЕМОЕ
@@ -150,12 +150,17 @@ dist/book.pdf        ИТОГ
 ```
 /start       онбординг (вопросы) → заполняет book.config.yml → дальше по mode
 /ingest      sources/<pdf> → sources/document/page_NN.md → список людей → wiki-стабы
+/genealogy   genealogist: wiki/families/*, book/_master/dvory.yml (ветки/дворы),
+             реестр эпитетов, логические конфликты дерева
 /research    на каждого: pamyat-naroda (chrome-devtools, сметка опечаток,
-             «прокликать каждую страницу») → chapters/<slug>/facts.md + context.md
+             «прокликать каждую страницу», скачать сканы) → facts.md + context.md
 /conceive    book-director: outline.md, introduction, conclusion, врезки,
-             STYLE-RULES.md, sources.md, реестр эпитетов
+             STYLE-RULES.md, sources.md (берёт дерево+эпитеты от genealogist)
 /write       chronicler: chapters/<slug>/draft.md (тон Алексиевич/Гранин, ноль вымысла)
-/review      reviewer (факты+стиль) → book-director (замысел) → проход на динамику
+/review      reviewer (факты+стиль+повторы внутриглавно) → book-director
+             (замысел + динамика) — на каждую главу
+/edit        editor: сквозная редактура ВСЕЙ рукописи (межглавные повторы,
+             согласованность фактов/эпитетов/заголовков) → EDIT-PASS.md
 /maps        cartographer: chapters/<slug>/maps.json → build/build_maps.py
 /illustrate  illustrator: PROPOSE (контактный лист) → гейт автора → APPLY
 /typeset     build/build_book.py → Vivliostyle → dist/book.pdf

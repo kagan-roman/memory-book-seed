@@ -1,6 +1,6 @@
 # Субагенты книги памяти
 
-Восемь субагентов, управляемых основным Claude-оркестратором (слэш-команды в
+Десять субагентов, управляемых основным Claude-оркестратором (слэш-команды в
 `.claude/commands/`). Конкретные род/село/автор — в `book.config.yml`; правила
 и замысел — в `CLAUDE.md`. Хардкода нет.
 
@@ -8,20 +8,29 @@
 
 | Агент | Что делает | Когда |
 |---|---|---|
-| `book-director` | Замысел: outline, введение, заключение, врезки, реестр эпитетов, пост-ревью, проход на динамику | `/conceive`; после каждого `chronicler`; `/review` |
-| `researcher` | Факты + голоса соседей (pamyat-naroda через chrome-devtools) | `/research`, на каждого, один раз; перезапуск чтобы докопать |
+| `genealogist` | Ветки, дворы (`dvory.yml`), `wiki/families/*`, реестр эпитетов, конфликты дерева | `/genealogy`, после `/ingest`; перезапуск при новых данных |
+| `book-director` | Замысел: outline, введение, заключение, врезки, пост-ревью, динамика (берёт дерево+эпитеты от genealogist) | `/conceive`; после каждого `chronicler`; `/review` |
+| `researcher` | Факты + голоса соседей + сканы документов (pamyat-naroda, chrome-devtools) | `/research`, на каждого; перезапуск чтобы докопать |
 | `cartographer` | `chapters/<slug>/maps.json` → `build_maps.py` | `/maps`, на каждого; перезапуск при правке карт |
-| `chronicler` | Пишет `chapters/<slug>/draft.md` | `/write` после researcher; снова по ревью |
-| `reviewer` | Fact-check + style-check + повторы | `/review` на каждый draft |
+| `chronicler` | Пишет `chapters/<slug>/draft.md` | `/write` после researcher; снова по ревью/edit |
+| `reviewer` | Fact-check + style-check + **внутриглавные** повторы + регресс | `/review` на каждый draft |
+| `editor` | **Сквозная** редактура всей рукописи (межглавные повторы, согласованность) | `/edit`, когда все главы прошли `/review` |
 | `typesetter` | Собирает `dist/book.pdf` (Vivliostyle) | `/typeset`, по явной команде |
 | `wiki-curator` | Переносит факты в `wiki/` | `/wiki`, после стабилизации главы |
 | `illustrator` | Документ. фото мест; контактный лист → гейт → вставка | `/illustrate`; PROPOSE → автор → APPLY |
+
+Разграничение ревью: **внутри одной главы** (факты/стиль/повторы/регресс) —
+`reviewer`; **замысел и динамика** — `book-director`; **между главами и по
+всей книге** (повторы, согласованность фактов/эпитетов/заголовков) — `editor`.
 
 ## Артефакты
 
 ```
 book/_master/   outline.md introduction.md conclusion.md
-                interlude-*.md sources.md STYLE-RULES.md dvory.yml   ← book-director
+                interlude-*.md sources.md STYLE-RULES.md       ← book-director
+                dvory.yml                                      ← genealogist
+                EDIT-PASS.md                                   ← editor
+wiki/families/*                 ← genealogist
 book/chapters/<slug>/
   facts.md  context.md          ← researcher
   draft.md                      ← chronicler (ОДИН файл; версии = git)
@@ -29,6 +38,7 @@ book/chapters/<slug>/
   maps.json                     ← cartographer
 book/illustration/
   candidates.md  <slug>.md  _contact/   ← illustrator (гейт автора)
+assets/documents/<slug>/        ← researcher (сканы ЦАМО + MANIFEST)
 build/.out/maps|trees/          ← build_maps.py / build_trees.py
 assets/photos/ portraits/       ← illustrator (APPLY) / ingest
 dist/book.pdf                   ← typesetter
