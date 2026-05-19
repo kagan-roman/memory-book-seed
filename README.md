@@ -96,7 +96,8 @@ CLAUDE.md         правила и замысел (Claude читает авто
 sources/          сырьё (скан, OCR) — не меняется
 wiki/             база знаний (паттерн llm-wiki Карпаты): люди/места/части/события
 book/             рукопись: _master/ (замысел) · chapters/<человек>/ · illustration/
-assets/           все бинарники по типам: portraits/ photos/ cover/ fonts/ geo/
+assets/           бинарники по типам: documents/<человек>/ (сканы ЦАМО —
+                  первоисточник) portraits/ photos/ cover/ fonts/ geo/
 build/            движки сборки + theme.css + RULES.md  (генерат → build/.out/)
 dist/book.pdf     итог
 ```
